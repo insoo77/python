@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14차시: 파이썬 객체지향 프로그래밍(OOP) 마스터하기</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; line-height: 1.7; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f8f9fa; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; text-align: center; }
+        h2 { color: #e67e22; margin-top: 40px; border-left: 6px solid #e67e22; padding-left: 15px; background: #fff; padding-top: 10px; padding-bottom: 10px; }
+        h3 { color: #2980b9; margin-top: 30px; }
+        h4 { color: #2c3e50; background: #eee; padding: 5px 10px; border-radius: 4px; display: inline-block; margin-top: 15px; }
+        .intro { background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 30px; border-top: 4px solid #3498db; }
+        code { font-family: 'Consolas', monospace; }
+        .note { font-size: 0.95em; color: #666; margin-bottom: 10px; }
+        section { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>14차시: 객체지향 프로그래밍(OOP) 마스터하기</h1>
+        <div class="intro">
+            <p>객체지향 프로그래밍(Object-Oriented Programming, OOP)은 데이터를 '객체(object)'로, 처리하는 행위를 '메서드(method)'로 묶어 프로그램을 설계하는 방식입니다. 이를 통해 코드의 재사용성을 높이고 유지보수를 용이하게 할 수 있습니다. 파이썬의 클래스(Class)와 객체를 통해 OOP의 핵심 개념을 마스터해 봅시다.</p>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2>1. 기초 파이썬 예시 코드 (5개)</h2>
+            <p class="note">클래스를 정의하고 객체를 생성하는 가장 기본적인 방법을 익힙니다.</p>
+
+            <h4>1) 클래스(Class)와 객체(Object) 생성</h4>
+            <p class="note"># 클래스는 설계도이며, 객체는 그 설계도로 만든 실체(인스턴스)입니다.</p>
+            <pre><code class="language-python"># '사람'을 표현하는 Person 클래스 정의
+class Person:
+    # 클래스의 속성 (Attribute)
+    species = "호모 사피엔스"
+
+    # 클래스의 행동 (Method)
+    def say_hello(self):
+        print("안녕하세요!")
+
+# Person 클래스의 인스턴스(객체) 생성
+p1 = Person()
+
+# 객체의 속성과 메서드 사용
+print(p1.species)     # 출력: 호모 사피엔스
+p1.say_hello()        # 출력: 안녕하세요!</code></pre>
+
+            <h4>2) 생성자 메서드 __init__</h4>
+            <p class="note"># 객체가 생성될 때 자동으로 호출되어 초기 속성을 설정합니다.</p>
+            <pre><code class="language-python">class Student:
+    def __init__(self, name, major):
+        self.name = name   # 인스턴스 변수 설정
+        self.major = major
+
+    def introduce(self):
+        print(f"저는 {self.major}을 전공하는 {self.name}입니다.")
+
+# 객체 생성 시 인자 전달
+s1 = Student("홍길동", "컴퓨터공학")
+s2 = Student("인수샘", "데이터사이언스")
+
+s1.introduce()
+s2.introduce()</code></pre>
+
+            <h4>3) 클래스 변수 vs 인스턴스 변수</h4>
+            <p class="note"># 모든 객체가 공유하는 변수와 각 객체마다 고유한 변수를 구분합니다.</p>
+            <pre><code class="language-python">class Dog:
+    kind = "강아지" # 클래스 변수 (모든 Dog 객체가 공유)
+
+    def __init__(self, name):
+        self.name = name # 인스턴스 변수 (각 Dog마다 다름)
+
+d1 = Dog("바둑이")
+d2 = Dog("초코")
+
+print(f"{d1.name}는 {d1.kind}")
+print(f"{d2.name}는 {d2.kind}")</code></pre>
+
+            <h4>4) 메서드 안에서 다른 메서드 호출</h4>
+            <pre><code class="language-python">class Calculator:
+    def add(self, a, b):
+        return a + b
+
+    def add_and_print(self, a, b):
+        result = self.add(a, b) # self를 통해 자신의 다른 메서드 호출
+        print(f"결과값은 {result}입니다.")
+
+calc = Calculator()
+calc.add_and_print(10, 20)</code></pre>
+
+            <h4>5) 정보 은닉 (Encapsulation) 기초</h4>
+            <p class="note"># 변수 앞에 __를 붙여 외부에서 직접 접근하는 것을 제한합니다.</p>
+            <pre><code class="language-python">class BankAccount:
+    def __init__(self, balance):
+        self.__balance = balance # 비공개 속성
+
+    def deposit(self, amount):
+        self.__balance += amount
+        print(f"{amount}원 입금 완료")
+
+    def get_balance(self):
+        return self.__balance
+
+account = BankAccount(1000)
+account.deposit(500)
+print(f"현재 잔액: {account.get_balance()}원")
+# print(account.__balance) # 에러 발생: 외부 접근 불가</code></pre>
+        </section>
+
+        <section>
+            <h2>2. 응용 파이썬 예시 코드 (5개)</h2>
+            <p class="note">상속, 메서드 오버라이딩 등 객체지향의 강력한 기능을 다룹니다.</p>
+
+            <h4>1) 상속 (Inheritance)</h4>
+            <p class="note"># 부모 클래스의 기능을 자식 클래스가 그대로 물려받습니다.</p>
+            <pre><code class="language-python">class Animal:
+    def eat(self):
+        print("음식을 먹습니다.")
+
+class Cat(Animal): # Animal을 상속받음
+    def meow(self):
+        print("야옹!")
+
+my_cat = Cat()
+my_cat.eat()  # 부모의 메서드 사용
+my_cat.meow() # 자신의 메서드 사용</code></pre>
+
+            <h4>2) 메서드 오버라이딩 (Method Overriding)</h4>
+            <p class="note"># 부모로부터 받은 메서드를 자식의 필요에 맞게 재정의합니다.</p>
+            <pre><code class="language-python">class Bird:
+    def fly(self):
+        print("하늘을 납니다.")
+
+class Penguin(Bird):
+    def fly(self): # 부모의 fly를 덮어씀
+        print("펭귄은 날 수 없어 헤엄을 칩니다.")
+
+p = Penguin()
+p.fly()</code></pre>
+
+            <h4>3) super()를 이용한 부모 호출</h4>
+            <p class="note"># 자식의 생성자에서 부모의 생성자나 메서드를 호출할 때 사용합니다.</p>
+            <pre><code class="language-python">class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Employee(Person):
+    def __init__(self, name, salary):
+        super().__init__(name) # 부모의 __init__ 호출
+        self.salary = salary
+
+emp = Employee("구운몽", 5000)
+print(f"이름: {emp.name}, 급여: {emp.salary}")</code></pre>
+
+            <h4>4) 클래스 메서드와 정적 메서드</h4>
+            <p class="note"># 객체 생성 없이 클래스 이름을 통해 호출하는 메서드들입니다.</p>
+            <pre><code class="language-python">class Date:
+    def __init__(self, year, month, day):
+        self.year, self.month, self.day = year, month, day
+
+    @staticmethod
+    def is_leap_year(year): # 정적 메서드: 객체 상태와 무관한 로직
+        return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+    @classmethod
+    def from_string(cls, date_str): # 클래스 메서드: 새로운 객체 생성 로직
+        year, month, day = map(int, date_str.split('-'))
+        return cls(year, month, day)
+
+print(f"2024년은 윤년인가? {Date.is_leap_year(2024)}")
+d = Date.from_string("2024-12-25")
+print(f"생성된 날짜: {d.year}년 {d.month}월 {d.day}일")</code></pre>
+
+            <h4>5) 다형성 (Polymorphism)</h4>
+            <p class="note"># 같은 이름의 메서드가 각 객체의 특성에 맞게 다르게 동작하는 원리입니다.</p>
+            <pre><code class="language-python">class Dog:
+    def speak(self): return "멍멍!"
+
+class Cat:
+    def speak(self): return "야옹~"
+
+class Sheep:
+    def speak(self): return "매에~"
+
+# 공통 인터페이스를 사용하는 함수
+def make_animal_sound(animal):
+    print(animal.speak())
+
+animals = [Dog(), Cat(), Sheep()]
+for a in animals:
+    make_animal_sound(a)</code></pre>
+        </section>
+
+        <section>
+            <h2>3. 심화 파이썬 예시 코드 (1개)</h2>
+            
+            <h4>1) 추상 기본 클래스 (Abstract Base Class, ABC)</h4>
+            <p class="note"># 자식 클래스가 반드시 특정 메서드를 구현하도록 강제하는 '설계 규약'입니다.</p>
+            <pre><code class="language-python">from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self): # 자식 클래스에서 반드시 구현해야 함
+        pass
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def area(self): # 추상 메서드 구현
+        return 3.14 * (self.radius ** 2)
+
+class Square(Shape):
+    def __init__(self, side):
+        self.side = side
+    
+    def area(self): # 추상 메서드 구현
+        return self.side * self.side
+
+shapes = [Circle(5), Square(4)]
+for s in shapes:
+    print(f"도형의 넓이: {s.area()}")</code></pre>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>
